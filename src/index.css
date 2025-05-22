@@ -1,1 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 @import "tailwindcss";
+
+@theme {
+    --color-primary: #4a90e2;
+    --font-anton: 'Anton', sans-serif;
+}
