@@ -28,6 +28,14 @@ const PlayerDetails = () => {
         }
     ];
 
+    const handlePlayer1CategoryChange = (selectedCategory) => {
+        setPlayer1Category(selectedCategory);   
+    };
+
+    const handlePlayer2CategoryChange = (selectedCategory) => {
+        setPlayer2Category(selectedCategory);
+    };
+
     return (
         <div className='min-h-screen w-full overflow-y-scroll bg-gradient-to-br font-monasans from-slate-50 via-blue-100 to-indigo-100 flex flex-col items-center p-2 space-y-2'>
             <div className="w-full h-[25vh] flex flex-col justify-between">
@@ -60,7 +68,7 @@ const PlayerDetails = () => {
                                         name="player1Category"
                                         value={category.id}
                                         checked={player1Category === category.id}
-                                        onChange={(e) => setPlayer1Category(e.target.value)}
+                                        onChange={(e) => handlePlayer1CategoryChange(e.target.value)}
                                         className="sr-only peer"
                                     />
                                     <div className="w-full py-2 bg-white/80 backdrop-blur-sm border-2 border-slate-200/60 rounded-lg shadow-sm transition-all duration-200 peer-checked:border-blue-400 peer-checked:bg-blue-50/80 hover:border-slate-300/80 hover:shadow-md flex items-center justify-center">
@@ -94,7 +102,7 @@ const PlayerDetails = () => {
                                         name="player2Category"
                                         value={category.id}
                                         checked={player2Category === category.id}
-                                        onChange={(e) => setPlayer2Category(e.target.value)}
+                                        onChange={(e) => handlePlayer2CategoryChange(e.target.value)}
                                         className="sr-only peer"
                                     />
                                     <div className="w-full py-2 bg-white/80 backdrop-blur-sm border-2 border-slate-200/60 rounded-lg shadow-sm transition-all duration-200 peer-checked:border-rose-400 peer-checked:bg-rose-50/80 hover:border-slate-300/80 hover:shadow-md flex items-center justify-center">

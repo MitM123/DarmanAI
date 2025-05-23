@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const Grid = ({ player1Name, player2Name, player1Category, player2Category }) => {
   const [grid, setGrid] = useState(Array(9).fill(''))
   const [currentPlayer, setCurrentPlayer] = useState('player1')
   const [gameOver, setGameOver] = useState(false)
+  const [winner, setWinner] = useState(null)
+  const [showModal, setShowModal] = useState(false)
+
 
   const categories = {
     animals: {
@@ -72,6 +75,20 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
     }
   }
 
+  const resetGame = () => {
+    setGrid(Array(9).fill(''))
+    setCurrentPlayer('X')
+    setGameOver(false)
+    setWinner(null)
+    setShowModal(false)
+    setConfetti([])
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+  }
+
+
   return (
     <>
       <div className="flex flex-col items-center justify-center p-8 space-y-8 transition-all duration-500 ease-out">
@@ -128,6 +145,7 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
         </div>
 
         <button
+          onClick={resetGame}
           className="group relative cursor-pointer px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 
                      text-white font-bold text-lg rounded-2xl shadow-lg
                      hover:from-indigo-600 hover:to-purple-700 hover:shadow-xl hover:scale-105
@@ -143,6 +161,40 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
 
       </div>
 
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center transition-all duration-500 ease-out"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+          onClick={closeModal}
+        >
+          <div className="relative text-center transition-all duration-700 ease-out transform animate-[modalSlideIn_0.7s_ease-out]">
+            {winner === 'tie' ? (
+              <div className="space-y-4">
+                <div className="text-8xl animate-bounce">🤝</div>
+                <h2 className="text-6xl font-bold text-amber-400 drop-shadow-2xl animate-pulse">
+                  It's a Tie!
+                </h2>
+                <p className="text-2xl text-white/80 drop-shadow-lg">
+                  Great game, both players!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="text-8xl animate-bounce">🎉</div>
+                <h2 className="text-6xl font-bold text-green-400 drop-shadow-2xl animate-pulse">
+                  {winner} Wins!
+                </h2>
+                <p className="text-2xl text-white/80 drop-shadow-lg">
+                  Congratulations!
+                </p>
+              </div>
+            )}
+            <p className="text-lg text-white/60 mt-6 drop-shadow-lg animate-pulse">
+              Click anywhere to continue...
+            </p>
+          </div>
+        </div>
+      )}
     </>
   )
 }
