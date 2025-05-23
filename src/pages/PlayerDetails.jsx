@@ -109,7 +109,7 @@ const PlayerDetails = () => {
                 </div>
 
                 <div className="">
-                    <Grid />
+                    <Grid player1Category={player1Category} player2Category={player2Category} player1Name={player1Name} player2Name={player2Name} />
                 </div>
             </div>
         </div>
