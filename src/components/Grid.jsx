@@ -1,4 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Howl } from "howler";
+import sound from '../assets/sound.wav'
+import winning from '../assets/winning.wav'
+
+const clickSound = new Howl({
+  src: [sound],
+  volume: 1,
+});
+
+const winsound = new Howl({
+  src: [winning],
+  volume: 1,
+});
+
+
 
 const Grid = ({ player1Name, player2Name, player1Category, player2Category }) => {
   const [grid, setGrid] = useState(Array(9).fill(''))
@@ -60,7 +75,7 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
 
   const handleCellClick = (index) => {
     if (grid[index] || gameOver) return
-
+    clickSound.play();
     const newGrid = [...grid]
     newGrid[index] = currentPlayer
     setGrid(newGrid)
@@ -74,6 +89,20 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
       setCurrentPlayer(currentPlayer === 'player1' ? 'player2' : 'player1')
     }
   }
+
+  useEffect(() => {
+    if (showModal) {
+      winsound.play();
+      const timer = setTimeout(() => {
+        winsound.stop();
+      }, 4000);
+      return () => {
+        clearTimeout(timer);
+        winsound.stop();
+      };
+    }
+  }, [showModal]);
+
 
   const resetGame = () => {
     setGrid(Array(9).fill(''))
