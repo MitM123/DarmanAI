@@ -29,11 +29,21 @@ const PlayerDetails = () => {
     ];
 
     const handlePlayer1CategoryChange = (selectedCategory) => {
-        setPlayer1Category(selectedCategory);   
+        setPlayer1Category(selectedCategory);
+        if (player2Category === selectedCategory) {
+            const availableCategories = categories.filter(cat => cat.id !== selectedCategory);
+            // console.log(availableCategories);
+            setPlayer2Category(availableCategories[0].id);
+        }
     };
 
     const handlePlayer2CategoryChange = (selectedCategory) => {
         setPlayer2Category(selectedCategory);
+
+        if (player1Category === selectedCategory) {
+            const availableCategories = categories.filter(cat => cat.id !== selectedCategory);
+            setPlayer1Category(availableCategories[0].id);
+        }
     };
 
     return (
