@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Howl } from "howler";
 import sound from '../assets/sound.wav'
 import winning from '../assets/winning.wav'
+import { GridContext } from '../contexts/GridContexts';
 
 const clickSound = new Howl({
   src: [sound],
@@ -13,14 +14,10 @@ const winsound = new Howl({
   volume: 1,
 });
 
-
-
 const Grid = ({ player1Name, player2Name, player1Category, player2Category }) => {
   const [grid, setGrid] = useState(Array(9).fill(''))
-  const [currentPlayer, setCurrentPlayer] = useState('player1')
-  const [gameOver, setGameOver] = useState(false)
-  const [winner, setWinner] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const { checkWinner, currentPlayer, setCurrentPlayer, winner, setWinner, gameOver, setGameOver } = useContext(GridContext)
 
 
   const categories = {
@@ -53,25 +50,6 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
     return currentPlayer === 'player1' ? player1Name : player2Name
   }
 
-  const checkWinner = (newGrid) => {
-    const winPatterns = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8],
-      [0, 3, 6], [1, 4, 7], [2, 5, 8],
-      [0, 4, 8], [2, 4, 6]
-    ]
-
-    for (let pattern of winPatterns) {
-      const [a, b, c] = pattern
-      if (newGrid[a] && newGrid[a] === newGrid[b] && newGrid[a] === newGrid[c]) {
-        return newGrid[a]
-      }
-    }
-
-    if (newGrid.every(cell => cell !== '')) {
-      return 'tie'
-    }
-    return null
-  }
 
   const handleCellClick = (index) => {
     if (grid[index] || gameOver) return
@@ -79,6 +57,7 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
     const newGrid = [...grid]
     newGrid[index] = currentPlayer
     setGrid(newGrid)
+    // console.log(newGrid);
 
     const gameResult = checkWinner(newGrid)
     if (gameResult) {

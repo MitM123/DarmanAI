@@ -1,12 +1,29 @@
-import React, { use } from 'react'
+import React, { useContext, useState } from 'react'
 import { motion } from 'framer-motion'
 import bot from '../assets/bot.png'
 import friend from '../assets/friends.png'
 import Header from '../components/Header'
 import { useNavigate } from 'react-router'
+import { toast } from 'sonner'
+import { PlayerContext } from '../contexts/PlayerContexts'
 
 const WelcomePage = () => {
   const naviagte = useNavigate();
+  const { BattleMode, setBattleMode } = useContext(PlayerContext);
+  console.log('Battle Mode:', BattleMode);
+
+  const handleBattleModeChange = (mode) => {
+    setBattleMode(mode);
+  };
+
+  const handlenbutton = () => {
+    if (BattleMode === '') {
+      toast.error('Please select a battle mode');
+      return;
+    }
+    naviagte('/playerdetails');
+  };
+
   const floatVariant = {
     animate: {
       y: [-0, -15, -25, -10, 0],
@@ -42,7 +59,7 @@ const WelcomePage = () => {
 
           <div className="space-x-3 flex">
             <label className="cursor-pointer block">
-              <input type="radio" name="gameMode" value="bot" className="sr-only peer" />
+              <input type="radio" name="gameMode" onClick={() => handleBattleModeChange('bot')} value="bot" className="sr-only peer" />
               <div className="w-64 px-6 py-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 border-2 border-slate-300/50 rounded-xl transition-all duration-200 peer-checked:border-indigo-400 peer-checked:bg-gradient-to-br peer-checked:from-indigo-50 peer-checked:via-blue-100 peer-checked:to-slate-100 hover:border-slate-400/60 shadow-sm hover:shadow-md">
                 <div className="flex justify-between items-center gap-3">
                   <span className="text-slate-700 font-medium">
@@ -54,7 +71,7 @@ const WelcomePage = () => {
             </label>
 
             <label className="cursor-pointer block">
-              <input type="radio" name="gameMode" value="friends" className="sr-only peer" />
+              <input type="radio" name="gameMode" onClick={() => handleBattleModeChange('friends')} value="friends" className="sr-only peer" />
               <div className="w-64 px-6 py-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 border-2 border-slate-300/50 rounded-xl transition-all duration-200 peer-checked:border-indigo-400 peer-checked:bg-gradient-to-br peer-checked:from-indigo-50 peer-checked:via-blue-100 peer-checked:to-slate-100 hover:border-slate-400/60 shadow-sm hover:shadow-md">
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-slate-700 font-medium">
@@ -68,7 +85,7 @@ const WelcomePage = () => {
         </div>
 
         <div className="mb-8 ">
-          <button onClick={() => naviagte('/playerdetails')} className="group cursor-pointer relative px-8 py-4 text-sm  tracking-widest text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-105 hover:shadow-blue-500/40 active:scale-95 overflow-hidden border-2 border-white/20">
+          <button onClick={handlenbutton} className="group cursor-pointer relative px-8 py-4 text-sm  tracking-widest text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-105 hover:shadow-blue-500/40 active:scale-95 overflow-hidden border-2 border-white/20">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl"></div>
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 rounded-2xl  opacity-0 group-hover:opacity-60 transition-all duration-500 animate-pulse"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-white/10 rounded-2xl"></div>

@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Header from '../components/Header'
 import back from '../assets/back.png'
 import { Link } from 'react-router';
 import Grid from '../components/Grid';
+import { PlayerContext } from '../contexts/PlayerContexts';
 
 const PlayerDetails = () => {
-    const [player1Name, setPlayer1Name] = useState('Player 1');
-    const [player2Name, setPlayer2Name] = useState('Player 2');
-    const [player1Category, setPlayer1Category] = useState('animals');
-    const [player2Category, setPlayer2Category] = useState('food');
+    const { player1Name, setPlayer1Name, player2Name, setPlayer2Name,
+        player1Category, setPlayer1Category, player2Category, setPlayer2Category
+    } = useContext(PlayerContext);
+
 
     const categories = [
         {
