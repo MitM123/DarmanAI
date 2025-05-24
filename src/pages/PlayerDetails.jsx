@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react'
 import Header from '../components/Header'
-import back from '../assets/back.png'
+import back from '../assets/Back.png'
 import { Link } from 'react-router';
 import Grid from '../components/Grid';
 import { PlayerContext } from '../contexts/PlayerContexts';
