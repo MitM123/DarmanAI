@@ -4,6 +4,7 @@ import sound from '../assets/sound.wav'
 import winning from '../assets/winning.wav'
 import { GridContext } from '../contexts/GridContexts';
 import { PlayerContext } from '../contexts/PlayerContexts';
+import { useNavigate } from 'react-router';
 
 const clickSound = new Howl({
   src: [sound],
@@ -19,9 +20,9 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
   const { checkWinner, makeBotMove, currentPlayer, setCurrentPlayer, winner, setWinner, gameOver, setGameOver,
     grid, setGrid, showModal, setShowModal
   } = useContext(GridContext)
-  
-  const battleMode = localStorage.getItem('BattleMode') 
+  const navigate = useNavigate();
 
+  const battleMode = localStorage.getItem('BattleMode')
 
   const categories = {
     animals: {
@@ -52,9 +53,6 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
   const getCurrentPlayerName = () => {
     return currentPlayer === 'player1' ? player1Name : player2Name
   }
-
-
-
 
   const handleCellClick = (index) => {
     if (grid[index] || gameOver) return
@@ -103,6 +101,7 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
 
   const closeModal = () => {
     setShowModal(false)
+    setGrid(Array(9).fill(''))
   }
 
 
@@ -206,9 +205,11 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
                 </p>
               </div>
             )}
-            <p className="text-lg text-white/60 mt-6 drop-shadow-lg animate-pulse">
-              Click anywhere to continue...
-            </p>
+            <div className="mt-6 flex justify-center">
+              <button onClick={() => navigate('/')} className="text-lg w-[200px] bg-yellow-50 rounded-lg p-2 text-black mt-6 drop-shadow-lg animate-pulse">
+                Play again
+              </button>
+            </div>
           </div>
         </div>
       )}

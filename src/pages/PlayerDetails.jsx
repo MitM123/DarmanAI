@@ -59,14 +59,12 @@ const PlayerDetails = () => {
                     <div className="flex items-center justify-center w-full relative">
                         <div className='absolute top-0 left-0 cursor-pointer'>
                             <Link to="/">
-                                <img src={back} alt="back" className="w-[3vw]" />
+                                <img src={back} alt="back" className="w-[6vw] sm:w-[3vw]" />
                             </Link>
                         </div>
                         <div className="scale-80">
                             <Header />
                         </div>
-
-
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 md:gap-6 w-full px-2 sm:px-4">
