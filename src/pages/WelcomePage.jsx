@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { PlayerContext } from '../contexts/PlayerContexts'
+import Footer from '../components/Footer'
 
 const WelcomePage = () => {
   const naviagte = useNavigate();
@@ -147,6 +148,9 @@ const WelcomePage = () => {
           <div className="w-2 h-2 md:w-3 md:h-3 bg-indigo-400 rounded-full animate-bounce delay-100"></div>
           <div className="w-2 h-2 md:w-3 md:h-3 bg-cyan-400 rounded-full animate-bounce delay-200"></div>
         </div>
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   )
