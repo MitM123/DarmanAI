@@ -14,6 +14,7 @@ const WelcomePage = () => {
 
   const handleBattleModeChange = (mode) => {
     setBattleMode(mode);
+    localStorage.setItem('BattleMode', mode);
   };
 
   const handlenbutton = () => {

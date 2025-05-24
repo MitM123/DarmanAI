@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext } from 'react'
 import Header from '../components/Header'
 import back from '../assets/back.png'
 import { Link } from 'react-router';
@@ -9,6 +9,11 @@ const PlayerDetails = () => {
     const { player1Name, setPlayer1Name, player2Name, setPlayer2Name,
         player1Category, setPlayer1Category, player2Category, setPlayer2Category
     } = useContext(PlayerContext);
+
+    const BattleMode = localStorage.getItem('BattleMode')
+    if (BattleMode === 'bot') {
+        setPlayer2Name('Bot');
+    }
 
 
     const categories = [
@@ -80,6 +85,7 @@ const PlayerDetails = () => {
                                         value={category.id}
                                         checked={player1Category === category.id}
                                         onChange={(e) => handlePlayer1CategoryChange(e.target.value)}
+                                        disabled={BattleMode === 'bot'}
                                         className="sr-only peer"
                                     />
                                     <div className="w-full py-2 bg-white/80 backdrop-blur-sm border-2 border-slate-200/60 rounded-lg shadow-sm transition-all duration-200 peer-checked:border-blue-400 peer-checked:bg-blue-50/80 hover:border-slate-300/80 hover:shadow-md flex items-center justify-center">

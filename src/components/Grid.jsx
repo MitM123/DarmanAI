@@ -3,6 +3,7 @@ import { Howl } from "howler";
 import sound from '../assets/sound.wav'
 import winning from '../assets/winning.wav'
 import { GridContext } from '../contexts/GridContexts';
+import { PlayerContext } from '../contexts/PlayerContexts';
 
 const clickSound = new Howl({
   src: [sound],
@@ -15,9 +16,11 @@ const winsound = new Howl({
 });
 
 const Grid = ({ player1Name, player2Name, player1Category, player2Category }) => {
-  const [grid, setGrid] = useState(Array(9).fill(''))
-  const [showModal, setShowModal] = useState(false)
-  const { checkWinner, currentPlayer, setCurrentPlayer, winner, setWinner, gameOver, setGameOver } = useContext(GridContext)
+  const { checkWinner, makeBotMove, currentPlayer, setCurrentPlayer, winner, setWinner, gameOver, setGameOver,
+    grid, setGrid, showModal, setShowModal
+  } = useContext(GridContext)
+  
+  const battleMode = localStorage.getItem('BattleMode') 
 
 
   const categories = {
@@ -51,6 +54,8 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
   }
 
 
+
+
   const handleCellClick = (index) => {
     if (grid[index] || gameOver) return
     clickSound.play();
@@ -65,7 +70,12 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
       setWinner(gameResult)
       setShowModal(true)
     } else {
-      setCurrentPlayer(currentPlayer === 'player1' ? 'player2' : 'player1')
+      const nextPlayer = currentPlayer === 'player1' ? 'player2' : 'player1';
+      setCurrentPlayer(nextPlayer);
+
+      if (battleMode === 'bot' && nextPlayer === 'player2') {
+        makeBotMove(newGrid);
+      }
     }
   }
 
@@ -89,7 +99,6 @@ const Grid = ({ player1Name, player2Name, player1Category, player2Category }) =>
     setGameOver(false)
     setWinner(null)
     setShowModal(false)
-    setConfetti([])
   }
 
   const closeModal = () => {

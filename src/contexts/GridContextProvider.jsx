@@ -1,8 +1,16 @@
 import { useState } from "react"
 import { GridContext } from "./GridContexts"
+import sound from '../assets/sound.wav'
+import { Howl } from "howler"
+const clickSound = new Howl({
+    src: [sound],
+    volume: 1,
+});
 
 export default function GridContextProvider({ children }) {
     const [currentPlayer, setCurrentPlayer] = useState('player1')
+    const [showModal, setShowModal] = useState(false)
+    const [grid, setGrid] = useState(Array(9).fill(''))
     const [winner, setWinner] = useState(null)
     const [gameOver, setGameOver] = useState(false)
 
@@ -26,6 +34,35 @@ export default function GridContextProvider({ children }) {
         return null
     }
 
+
+    function handleBotMove(currentGrid) {
+        const availableMoves = currentGrid
+            .map((cell, index) => cell === '' ? index : null)
+            .filter(index => index !== null);
+
+        if (availableMoves.length === 0) return;
+
+        const randomIndex = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+
+        setTimeout(() => {
+            if (!gameOver) {
+                clickSound.play();
+                const newGrid = [...currentGrid];
+                newGrid[randomIndex] = 'player2';
+                setGrid(newGrid);
+
+                const gameResult = handleCheckWinner(newGrid);
+                if (gameResult) {
+                    setGameOver(true);
+                    setWinner(gameResult);
+                    setShowModal(true);
+                } else {
+                    setCurrentPlayer('player1');
+                }
+            }
+        }, 500);
+    };
+
     const ctxValue = {
         gameOver,
         setGameOver,
@@ -33,7 +70,12 @@ export default function GridContextProvider({ children }) {
         setCurrentPlayer,
         winner,
         setWinner,
+        grid,
+        setGrid,
+        showModal,
+        setShowModal,
         checkWinner: handleCheckWinner,
+        makeBotMove: handleBotMove
     }
 
     return (
